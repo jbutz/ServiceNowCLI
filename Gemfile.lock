@@ -1,0 +1,25 @@
+PATH
+  remote: .
+  specs:
+    sncli (0.0.0)
+      highline
+      nokogiri
+      nori
+      thor
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    highline (1.6.19)
+    mini_portile (0.5.1)
+    nokogiri (1.6.0)
+      mini_portile (~> 0.5.0)
+    nori (2.3.0)
+    thor (0.18.1)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  bundler
+  sncli!
