@@ -1,7 +1,8 @@
 require "nori"
+require "digest"
 
-class BrObject
-	attr_accessor :name, :collection, :order, :client_callable, :active, :when, :action_insert, :action_update, :action_delete, :action_query, :condition, :script, :action_run_at, :sys_created_by, :sys_created_on, :sys_updated_by, :sys_updated_on
+class BusinessRule
+	attr_accessor :name, :collection, :order, :client_callable, :active, :when, :action_insert, :action_update, :action_delete, :action_query, :condition, :script, :action_run_at, :sys_created_by, :sys_created_on, :sys_updated_by, :sys_updated_on, :sys_id
 
 	def initialize(br)
 		@name            = br["name"]
@@ -17,16 +18,22 @@ class BrObject
 		@condition       = br["condition"]
 		@script          = br["script"]
 		@action_run_at   = br["action_run_at"]
+		@sys_id          = br["sys_id"]
 		@sys_created_by  = br["sys_created_by"]
 		@sys_created_on  = br["sys_created_on"]
 		@sys_updated_by  = br["sys_updated_by"]
 		@sys_updated_on  = br["sys_updated_on"]
+
+		@name_true = @name
+		@name = "NO_NAME_" + Digest::MD5.hexdigest(@script).to_s unless @name
 	end
 
 	def header
+
 		"/*!\n" +
+		" * Sys Id: #{@sys_id}\n" +
 		" * Type: Business Rule\n" +
-		" * Name: #{@name}\n" +
+		" * Name: #{@name_true}\n" +
 		" * Created: #{@sys_created_on} by #{@sys_created_by}\n" +
 		" * Updated: #{@sys_updated_on} by #{@sys_updated_by}\n" +
 		" * Table: #{@collection}\n" +

@@ -15,6 +15,10 @@ class SnDownload
 		download("sys_script",db_table)
 	end
 
+	def client_script(db_table)
+		download("sys_script_client",db_table)
+	end
+
 
 
 	private

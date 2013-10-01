@@ -1,7 +1,8 @@
 $: << File.expand_path("../lib/", __FILE__)
 require "thor"
 require 'sn_download'
-require 'br_object'
+require 'scripts/business_rule'
+require 'scripts/client_script'
 require 'sn_settings'
 
 class Download < Thor
@@ -17,9 +18,26 @@ class Download < Thor
 		if obj["xml"]
 			obj = obj["xml"]
 			obj["sys_script"].each do |x|
-				br = BrObject.new(x)
+				br = BusinessRule.new(x)
 				say br.save
 			end
 		end
 	end
+
+	desc "cs TABLE", "download all client scripts from TABLE to the current directory"
+	def cs(table)
+		config = SnSettings.new().get_config()
+
+		sn = SnDownload.new(config)
+		obj = sn.client_script(table)
+
+		if obj["xml"]
+			obj = obj["xml"]
+			obj["sys_script_client"].each do |x|
+				cs = ClientScript.new(x)
+				say cs.save
+			end
+		end
+	end
+
 end
