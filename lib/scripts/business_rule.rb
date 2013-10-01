@@ -52,10 +52,11 @@ class BusinessRule
 
 	def save
 		heading = header()
-		if File.open("#{@name}.br.js", 'w') { |file| file.write("#{heading}\n#{@script}") }
-			"Saved #{@name}.br.js"
+		file_name = @name.gsub(/[^\w\.]/, '_')
+		if File.open("#{file_name}.br.js", 'w') { |file| file.write("#{heading}\n#{@script}") }
+			"Saved #{file_name}.br.js"
 		else
-			"Error while saving #{@name}.br.js"
+			"Error while saving #{file_name}.br.js"
 		end
 
 	end

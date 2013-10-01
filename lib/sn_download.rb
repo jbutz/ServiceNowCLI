@@ -12,18 +12,22 @@ class SnDownload
 	end
 
 	def business_rule(db_table)
-		download("sys_script",db_table)
+		download("sys_script",db_table,"collection")
 	end
 
 	def client_script(db_table)
-		download("sys_script_client",db_table)
+		download("sys_script_client",db_table,"table")
+	end
+
+	def ui_action(db_table)
+		download("sys_ui_action",db_table,"table")
 	end
 
 
 
 	private
-	def download(script_table, db_table)
-		uri = URI.parse(@base_url + "/#{script_table}.do?XML&sysparm_query=collection%3D#{db_table}")
+	def download(script_table, db_table, tbl_field)
+		uri = URI.parse(@base_url + "/#{script_table}.do?XML&sysparm_query=#{tbl_field}%3D#{db_table}")
 
 		http = Net::HTTP.new(uri.host, uri.port)
 		http.use_ssl = true

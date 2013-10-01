@@ -3,6 +3,7 @@ require "thor"
 require 'sn_download'
 require 'scripts/business_rule'
 require 'scripts/client_script'
+require 'scripts/ui_action'
 require 'sn_settings'
 
 class Download < Thor
@@ -36,6 +37,22 @@ class Download < Thor
 			obj["sys_script_client"].each do |x|
 				cs = ClientScript.new(x)
 				say cs.save
+			end
+		end
+	end
+
+	desc "ua TABLE", "download all UI actions from TABLE to the current directory"
+	def ua(table)
+		config = SnSettings.new().get_config()
+
+		sn = SnDownload.new(config)
+		obj = sn.ui_action(table)
+
+		if obj["xml"]
+			obj = obj["xml"]
+			obj["sys_ui_action"].each do |x|
+				ua = UiAction.new(x)
+				say ua.save
 			end
 		end
 	end
